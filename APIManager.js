@@ -3,10 +3,44 @@
 class APIManager {
     constructor() {
         this.data = {}
+
     }
 
-    loadData(){
-        //you should make all your API requests here
-        //each request should update the `data` object accordingly
+    loadData() {
+
+        $.ajax({
+            url: "https://randomuser.me/api/?results=7",
+            dataType: "json",
+            success: (users) => {
+                this.data.user = users.results[0]
+                this.data.friends = users.results.splice(1, 6)}
+        })
+
+        $.ajax({
+            url: `https://pokeapi.co/api/v2/pokemon/${Math.floor(Math.random()*150)+1}`,
+            success: (pokemon) => this.data.pokemon = pokemon
+        })
+
+
+        $.ajax({
+            url: "http://quotes.rest/qod.json",
+            success: (quote) => {
+                let q = {
+                    quote: quote.contents.quotes[0].quote,
+                    author: quote.contents.quotes[0].author
+                }
+                this.data.q = q
+            }
+        })
+
+        $.ajax({
+            url: "https://baconipsum.com/api/?type=meat-and-filler&paras=2&format=text",
+            success:(text) => this.data.text = text
+        })
+
+    
+
+
+
     }
 }
